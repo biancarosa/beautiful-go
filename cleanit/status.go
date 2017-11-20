@@ -12,3 +12,22 @@ func returnUsername(userId int) string {
 	}
 	return "Não identificado"
 }
+
+var users map[int]string
+
+func init() {
+	users = map[int]string{
+		1: "Maria",
+		2: "João",
+		3: "Joaquim",
+		4: "Ana Clara",
+	}
+}
+
+func name(userID int) string {
+	name, ok := users[userID]
+	if ok == false {
+		return "Não identificado"
+	}
+	return name
+}
