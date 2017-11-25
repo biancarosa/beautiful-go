@@ -99,16 +99,22 @@ func (f *StatusFlow) IsTransitionAllowed(from, to string) bool {
 	if len(f.Flows) == 0 {
 		return true
 	}
-	for _, permission := range f.Flows {
-		if permission.From == from {
-			for _, new := range permission.To {
-				if new == to {
-					return true
-				}
-			}
+	permission := f.PermissionForTransition(from)
+	for _, new := range permission.To {
+		if new == to {
+			return true
 		}
 	}
 	return false
+}
+
+func (f *StatusFlow) PermissionForTransition(name string) *Permission {
+	for _, permission := range f.Flows {
+		if permission.From == name {
+			return &permission
+		}
+	}
+	return nil
 }
 
 func matchedFlow(statusFlows []StatusFlow, name string) *StatusFlow {
